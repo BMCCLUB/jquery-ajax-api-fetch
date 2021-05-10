@@ -62,6 +62,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- User Script -->
+    <!-- JQuery Ajax Implementation -->
     <script>
         function getUsers() {
             $.ajax({
@@ -103,11 +104,12 @@
                 type: 'POST',
                 data: newUser,
                 dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
+                success: (res, status, xhr) => {
+                    console.log(res.msg);
+                    getUsers();
                 },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
+                error: (xhr, status, err) => {
+                    console.log(err);
                 }
             });
         }
@@ -123,11 +125,11 @@
                 type: 'PUT',
                 data: editedUser,
                 dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
+                success: (res, status, xhr) => {
+                    console.log(res.msg);
                 },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
+                error: (xhr, status, err) => {
+                    console.log(err);
                 }
             });
         }
@@ -138,11 +140,11 @@
                 url: `http://localhost:5000/users/delete?id=${userId}`,
                 type: 'DELETE',
                 dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
+                success: (res, status, xhr) => {
+                    console.log(res.msg);
                 },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
+                error: (xhr, status, err) => {
+                    console.log(err);
                 }
             });
         }
@@ -150,20 +152,20 @@
             // Get Users data
             await getUsers();
             // Post new user
-            $('.post-user').submit(e => {
+            $('.post-user').submit(async e => {
                 e.preventDefault();
-                postNewUser();
+                await postNewUser();
             });
             // Edit existing user
-            $('.put-user').submit(e => {
+            $('.put-user').submit(async e => {
                 e.preventDefault();
-                editExistingUser();
+                await editExistingUser();
             });
             // Delete existing user
-            $('.delete-user').submit(e => {
+            $('.delete-user').submit(async e => {
                 e.preventDefault();
-                deleteExistingUserById();
-            })
+                await deleteExistingUserById();
+            });
         });
     </script>
 </body>

@@ -2,7 +2,15 @@
 
 Ini repo buat nampung hasil qerja qeraz gw buat belajar cara pake AJAX dan melakukan operasi CRUD API pake JQuery Ajax.
 
-Sumpa, gw stack pas pengen biar pas nge POST data itu biar ga reload, tapi tetep ga bisa. Mungkin emang JQuery Ajax ini rada gitu lah.
+~~Sumpa, gw stack pas pengen biar pas nge POST data itu biar ga reload, tapi tetep ga bisa. Mungkin emang JQuery Ajax ini rada gitu lah.~~
+
+> Update 11/05/2021
+>
+> Ternyata udh bisa, kalo pas lagi pake VSCode Live Server, dia pasti bakal reload kalo submit form nya. Tapi kalo bisa langsung HTML nya, berjalan sesuai ekspektasi. T_T
+>
+> Ngateli...
+
+Kalo pas buat websitenya, pake live server gpp. Tapi kalo udh mau tes JQuery Ajax-nya, jangan pake live server, langsung buka file HTML-nya. Soalnya live server-nya ngebug.
 
 Intinya sih ini udh selese. Webnya simpel, cuma ngelakuin CRUD pake form yang ada disitu.
 
@@ -336,7 +344,6 @@ function deleteExistingUserById() {
 ---
 
 Sekian, terima kasih.
-
 
 Front-End Mentor
 
