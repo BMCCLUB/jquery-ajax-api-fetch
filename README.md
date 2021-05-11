@@ -66,25 +66,31 @@ Lalu untuk kode AJAX Create-nya nya ada di folder 'client/index.html', code AJAX
 
 ```javascript
 function postNewUser() {
-            let formData = $('.post-user').serializeArray();
-            let newUser = {
-                name: formData[0].value,
-                age: formData[1].value
-            }
-            console.log(newUser);
-            $.ajax({
-                url: 'http://localhost:5000/users/add',
-                type: 'POST',
-                data: newUser,
-                dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
-                },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
-                }
-            });
+    let formData = $('.post-user').serializeArray();
+    let newUser = {
+        name: formData[0].value,
+        age: formData[1].value
+    }
+    console.log(newUser);
+    $.ajax({
+        url: 'http://localhost:5000/users/add',
+        type: 'POST',
+        data: newUser,
+        dataType: 'json',
+        beforeSend: (xhr, setting) => {
+            $('.add-user > .message').remove();
+        },
+        success: (res, status, xhr) => {
+            console.log(res.msg);
+            $('.add-user').append(`<p class="message my-2">Message: ${res.msg}</p>`);
+            $('.add-user').append(`<p class="message my-2">New User: ${(JSON.stringify(res.user))}</p>`);
+        },
+        error: (xhr, status, err) => {
+            $('.add-user').append(`<p class="message my-2">Message: Something wrong happened!</p>`);
+            $('.add-user').append(`<p class="message my-2">Message: Open console for detail!</p>`);
         }
+    });
+}
 ```
 
 * Read
@@ -110,30 +116,36 @@ Lalu untuk AJAX Read-nya, ada di folder 'client/index.html', mulai dari baris 66
 
 ```javascript
 function getUsers() {
-            $.ajax({
-                url: 'http://localhost:5000/users',
-                type: 'GET',
-                success: (data) => {
-                    console.log(data);
-                    // Remove old data in HTML
-                    $('.database_table > .table > tbody > tr').remove();
-                    // Insert Users data to table
-                    for (let i = 0; i < data.length; i++) {
-                        $('.database_table > .table > tbody').append(`
-                        <tr>
-                            <th scope="row">${data[i].id}</th>
-                            <td>${data[i].name}</td>
-                            <td>${data[i].age}</td>
-                        </tr>
-                    `);
-                    }
-                },
-                complete: () => {
-                    $('.database_table > p').remove();
-                },
-                error: () => {
-                    $('.database_table > pre').remove();
-                    $('.database_table').append('<pre>Failed to fetch data</pre>');
+    $.ajax({
+        url: 'http://localhost:5000/users',
+        type: 'GET',
+        beforeSend: (xhr, setting) => {
+            $('.database_table > .loading').show();
+            // Remove old data in HTML
+            $('.database_table > .table > tbody > tr').remove();
+            // 
+            $('.database_table > .table > .error').remove();
+        },
+        success: (data, status, xhr) => {
+            console.log(data);
+            // Insert Users data to table
+            for (let i = 0; i < data.length; i++) {
+                $('.database_table > .table > tbody').append(`
+                <tr>
+                    <th scope="row">${data[i].id}</th>
+                    <td>${data[i].name}</td>
+                    <td>${data[i].age}</td>
+                </tr>
+            `);
+            }
+        },
+        complete: (xhr, status) => {
+            $('.database_table > .loading').hide();
+        },
+                error: (xhr, status, err) => {
+                    $('.database_table > .loading').hide();
+                    $('.database_table > .table').append('<pre class="error my-2">Failed to fetch data</pre>');
+                    $('.database_table > .table').append('<pre class="error my-2">Open console for detail!</pre>');
                 }
             });
         }
@@ -233,25 +245,31 @@ Lalu untuk kode AJAX Update-nya, ada di folder 'client/index.html' dari baris 11
 
 ```javascript
 function editExistingUser() {
-            let formData = $('.put-user').serializeArray();
-            let userId = formData[0].value;
-            let editedUser = {
-                name: formData[1].value,
-                age: formData[2].value
-            }
-            $.ajax({
-                url: `http://localhost:5000/users/update?id=${userId}`,
-                type: 'PUT',
-                data: editedUser,
-                dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
-                },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
-                }
-            });
-        }
+    let formData = $('.put-user').serializeArray();
+    let userId = formData[0].value;
+    let editedUser = {
+        name: formData[1].value,
+        age: formData[2].value
+    }
+    $.ajax({
+        url: `http://localhost:5000/users/update?id=${userId}`,
+        type: 'PUT',
+        data: editedUser,
+        dataType: 'json',
+        beforeSend: (xhr, setting) => {
+            $('.update-user > .message').remove();
+        },
+        success: (res, status, xhr) => {
+            console.log(res.msg);
+            $('.update-user').append(`<p class="message my-2">Message: ${res.msg}</p>`);
+            $('.update-user').append(`<p class="message my-2">User: {${(JSON.stringify(res.user))}}</p>`);
+         },
+         error: (xhr, status, err) => {
+            $('.update-user').append(`<p class="message my-2">Message: Something wrong happened!</p>`);
+            $('.add-user').append(`<p class="message my-2">Message: Open console for detail!</p>`);
+         }
+    });
+}
 ```
 
 * Delete
@@ -325,20 +343,26 @@ Lalu untuk kode AJAX Delete-nya, ada di folder 'client/index.html' dari baris 13
 
 ```javascript
 function deleteExistingUserById() {
-            let formData = $('.delete-user').serializeArray();
-            let userId = formData[0].value;
-            $.ajax({
-                url: `http://localhost:5000/users/delete?id=${userId}`,
-                type: 'DELETE',
-                dataType: 'json',
-                success: (res) => {
-                    window.alert(res.msg);
-                },
-                error: (res) => {
-                    window.alert(res.msg + '\n' + res.err + '\n' + res.hint);
-                }
-            });
+    let formData = $('.delete-user').serializeArray();
+    let userId = formData[0].value;
+    $.ajax({
+        url: `http://localhost:5000/users/delete?id=${userId}`,
+        type: 'DELETE',
+        dataType: 'json',
+        beforeSend: (xhr, setting) => {
+            $('.delete-user > .message').remove();
+        },
+        success: (res, status, xhr) => {
+            console.log(res.msg);
+            $('.delete-user').append(`<p class="message my-2">Message: ${res.msg}</p>`);
+            $('.delete-user').append(`<p class="message my-2">User: {${(JSON.stringify(res.user))}}</p>`);
+        },
+        error: (xhr, status, err) => {
+            $('.delete-user').append(`<p class="message my-2">Message: Something wrong happened!</p>`);
+            $('.add-user').append(`<p class="message my-2">Message: Open console for detail!</p>`);
         }
+    });
+}
 ```
 
 ---
