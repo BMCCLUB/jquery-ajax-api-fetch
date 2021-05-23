@@ -17,14 +17,14 @@ Intinya sih ini udh selese. Webnya simpel, cuma ngelakuin CRUD pake form yang ad
 ## How to run
 
 1. Pastikan sudah ada NodeJS terinstall.
-2. Buka console di folder "./server"
+2. Buka console di folder ```./server```
 3. Jalankan perintah dibawah untuk memulai server
 
 ```bash
 npm start
 ```
 
-4. Setelah itu tinggal buka index.html di folder "./client" buat mencoba CRUD API nya.
+4. Setelah itu tinggal buka index.html di folder ```./client``` buat mencoba CRUD API nya.
 
 ## CRUD dan Server Code Explanation (Not in nutshell)
 
