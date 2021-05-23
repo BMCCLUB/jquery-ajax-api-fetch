@@ -14,6 +14,20 @@ Kalo pas buat websitenya, pake live server gpp. Tapi kalo udh mau tes JQuery Aja
 
 Intinya sih ini udh selese. Webnya simpel, cuma ngelakuin CRUD pake form yang ada disitu.
 
+## How to run
+
+1. Pastikan sudah ada NodeJS terinstall.
+2. Buka console di folder "./server"
+3. Jalankan perintah dibawah untuk memulai server
+
+```bash
+npm start
+```
+
+4. Setelah itu tinggal buka index.html di folder "./client" buat mencoba CRUD API nya.
+
+## CRUD dan Server Code Explanation (Not in nutshell)
+
 Ada 4 Operasi CRUD yg udh dilakuin di kode ini.
 
 * Create
@@ -365,9 +379,9 @@ function deleteExistingUserById() {
 }
 ```
 
----
+## Closing
 
-Sekian, terima kasih.
+Sekian, terima kasih. Selamat mencoba!
 
 Front-End Mentor
 
